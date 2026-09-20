@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0f766e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Minha Compra">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <title>Minha Compra</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="topo">
+        <div>
+            <small>LISTA DE SUPERMERCADO</small>
+            <h1>Minha Compra</h1>
+        </div>
+        <button id="btnNovaLista" class="btn-icon" type="button" title="Nova lista">+</button>
+    </header>
+
+    <main class="container">
+        <section id="telaCriacao" class="tela">
+            <div class="card">
+                <span class="rotulo">NOVA LISTA</span>
+                <h2>Prepare sua compra</h2>
+
+                <div class="grid-form">
+                    <label>
+                        Nome da lista
+                        <input id="nomeLista" type="text" placeholder="Ex.: Compra da semana">
+                    </label>
+                    <label>
+                        Mercado
+                        <input id="nomeMercado" type="text" placeholder="Ex.: Comercial Zaffari">
+                    </label>
+                </div>
+
+                <div class="linha-titulo">
+                    <div>
+                        <span class="rotulo">PRODUTOS</span>
+                        <h3>O que você precisa comprar?</h3>
+                    </div>
+                    <button id="btnAdicionarPlanejado" class="btn btn-secundario" type="button">+ Produto</button>
+                </div>
+
+                <div id="listaPlanejamento" class="lista"></div>
+                <div id="vazioPlanejamento" class="vazio">Nenhum produto adicionado.</div>
+
+                <button id="btnCriarLista" class="btn btn-principal btn-largo" type="button">Criar lista e iniciar compra</button>
+            </div>
+        </section>
+
+        <section id="telaCompra" class="tela oculto">
+            <div class="cabecalho-compra">
+                <div>
+                    <span class="rotulo">COMPRA EM ANDAMENTO</span>
+                    <h2 id="compraNome"></h2>
+                    <p id="compraMercado"></p>
+                </div>
+                <button id="btnExcluirLista" class="btn btn-perigo" type="button">Excluir lista</button>
+            </div>
+
+            <div class="resumo">
+                <article class="resumo-destaque">
+                    <span>Total no carrinho</span>
+                    <strong id="totalCarrinho">R$ 0,00</strong>
+                </article>
+                <article>
+                    <span>Itens da lista</span>
+                    <strong id="progressoItens">0 / 0</strong>
+                </article>
+                <article>
+                    <span>Itens extras</span>
+                    <strong id="totalExtras">0</strong>
+                </article>
+            </div>
+
+            <div class="progresso"><div id="barraProgresso"></div></div>
+
+            <div class="linha-titulo">
+                <div>
+                    <span class="rotulo">LISTA ORIGINAL</span>
+                    <h3>Produtos planejados</h3>
+                </div>
+                <button id="btnAdicionarExtra" class="btn btn-secundario" type="button">+ Comprei fora da lista</button>
+            </div>
+
+            <div id="listaCompra" class="lista"></div>
+
+            <div id="blocoExtras" class="bloco-extras oculto">
+                <div class="linha-titulo">
+                    <div>
+                        <span class="rotulo rotulo-extra">EXTRAS</span>
+                        <h3>Comprados fora da lista</h3>
+                    </div>
+                </div>
+                <div id="listaExtras" class="lista"></div>
+            </div>
+
+            <div class="finalizar-barra">
+                <div>
+                    <span>Total atual</span>
+                    <strong id="totalRodape">R$ 0,00</strong>
+                </div>
+                <button id="btnFinalizar" class="btn btn-escuro" type="button">Finalizar compra</button>
+            </div>
+        </section>
+
+        <section id="telaHistorico" class="tela oculto">
+            <div class="linha-titulo">
+                <div>
+                    <span class="rotulo">HISTÓRICO</span>
+                    <h2>Compras finalizadas</h2>
+                </div>
+                <button id="btnVoltarAtual" class="btn btn-secundario oculto" type="button">Compra atual</button>
+            </div>
+            <div id="listaHistorico" class="lista"></div>
+            <div id="vazioHistorico" class="vazio">Nenhuma compra finalizada.</div>
+        </section>
+
+
+        <section id="telaInformacoes" class="tela oculto">
+            <div class="card info-card">
+                <span class="rotulo">INFORMAÇÕES</span>
+                <h2>Sobre o Minha Compra</h2>
+                <div class="info-aviso"><strong>Seus dados ficam neste navegador</strong><p>Listas, compras, preços e histórico são armazenados localmente no seu dispositivo usando o armazenamento do navegador.</p></div>
+                <div class="info-aviso alerta"><strong>Atenção ao limpar os dados</strong><p>Se você limpar o cache/dados do site, apagar o armazenamento do navegador ou remover os dados do aplicativo, as informações salvas podem ser perdidas.</p></div>
+                <p class="info-texto">O aplicativo não possui conta ou sincronização em nuvem nesta versão. Os dados deste dispositivo não são transferidos automaticamente para outro celular ou navegador.</p>
+                <button id="btnInstalarInfo" class="btn btn-principal btn-largo oculto" type="button">Instalar aplicativo</button>
+            </div>
+        </section>
+
+        <nav class="nav">
+            <button id="navAtual" class="ativo" type="button">Compra atual</button>
+            <button id="navHistorico" type="button">Histórico</button>
+            <button id="navInformacoes" type="button">Informações</button>
+        </nav>
+    </main>
+
+    <div id="modalPlanejado" class="modal oculto">
+        <div class="fundo" data-fechar="planejado"></div>
+        <div class="modal-card">
+            <div class="modal-topo">
+                <div><span class="rotulo">PRODUTO</span><h2 id="tituloPlanejado">Adicionar produto</h2></div>
+                <button class="fechar" data-fechar="planejado" type="button">×</button>
+            </div>
+            <form id="formPlanejado" class="form">
+                <input id="planejadoId" type="hidden">
+                <label class="full produto-autocomplete">Produto
+                    <input id="planejadoNome" type="text" maxlength="80" required placeholder="Digite ou selecione um produto já comprado" autocomplete="off">
+                    <div id="sugestoesProdutos" class="sugestoes-produtos oculto"></div>
+                </label>
+                <label>Quantidade<input id="planejadoQtd" type="number" min="0.01" step="0.01" value="1" required></label>
+                <label>Unidade<select id="planejadoUn"><option>un</option><option>kg</option><option>g</option><option>L</option><option>ml</option><option>cx</option><option>pct</option></select></label>
+                <div class="acoes full">
+                    <button class="btn btn-secundario" data-fechar="planejado" type="button">Cancelar</button>
+                    <button class="btn btn-principal" type="submit">Salvar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modalPegar" class="modal oculto">
+        <div class="fundo" data-fechar="pegar"></div>
+        <div class="modal-card">
+            <div class="modal-topo">
+                <div><span class="rotulo">PRODUTO PEGO</span><h2 id="pegarNome"></h2></div>
+                <button class="fechar" data-fechar="pegar" type="button">×</button>
+            </div>
+            <form id="formPegar" class="form">
+                <input id="pegarId" type="hidden">
+                <label>Quantidade comprada<input id="pegarQtd" type="number" min="0.01" step="0.01" required></label>
+                <label>Valor unitário<input id="pegarValor" type="number" min="0" step="0.01" required placeholder="0,00"></label>
+                <div id="hintPreco" class="hint full"></div>
+                <div class="acoes full">
+                    <button class="btn btn-secundario" data-fechar="pegar" type="button">Cancelar</button>
+                    <button class="btn btn-principal" type="submit">Confirmar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modalExtra" class="modal oculto">
+        <div class="fundo" data-fechar="extra"></div>
+        <div class="modal-card">
+            <div class="modal-topo">
+                <div><span class="rotulo rotulo-extra">FORA DA LISTA</span><h2>Adicionar item extra</h2></div>
+                <button class="fechar" data-fechar="extra" type="button">×</button>
+            </div>
+            <form id="formExtra" class="form">
+                <label class="full">Produto<input id="extraNome" type="text" maxlength="80" required placeholder="Ex.: Chocolate"></label>
+                <label>Quantidade<input id="extraQtd" type="number" min="0.01" step="0.01" value="1" required></label>
+                <label>Unidade<select id="extraUn"><option>un</option><option>kg</option><option>g</option><option>L</option><option>ml</option><option>cx</option><option>pct</option></select></label>
+                <label class="full">Valor unitário<input id="extraValor" type="number" min="0" step="0.01" required placeholder="0,00"></label>
+                <div class="acoes full">
+                    <button class="btn btn-secundario" data-fechar="extra" type="button">Cancelar</button>
+                    <button class="btn btn-principal" type="submit">Adicionar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="modalFinalizar" class="modal oculto">
+        <div class="fundo" data-fechar="finalizar"></div>
+        <div class="modal-card modal-grande">
+            <div class="modal-topo">
+                <div><span class="rotulo">RESUMO FINAL</span><h2>Conferir compra</h2></div>
+                <button class="fechar" data-fechar="finalizar" type="button">×</button>
+            </div>
+
+            <div class="resumo-final">
+                <article><span>Planejados</span><strong id="fimPlanejados">0</strong></article>
+                <article><span>Pegos</span><strong id="fimPegos">0</strong></article>
+                <article><span>Faltaram</span><strong id="fimFaltaram">0</strong></article>
+                <article><span>Extras</span><strong id="fimExtras">0</strong></article>
+            </div>
+
+            <div id="fimFaltantesBloco" class="secao-final oculto"><h3>Faltou pegar</h3><div id="fimFaltantes"></div></div>
+            <div id="fimQuantidadeBloco" class="secao-final oculto"><h3>Quantidade diferente</h3><div id="fimQuantidade"></div></div>
+            <div id="fimExtrasBloco" class="secao-final oculto"><h3>Comprado a mais</h3><div id="fimListaExtras"></div></div>
+
+            <div class="conferencia">
+                <div class="total-app"><span>Total registrado</span><strong id="fimTotalApp">R$ 0,00</strong></div>
+                <label>Total do documento fiscal<input id="fimDocumento" type="number" min="0" step="0.01" placeholder="0,00"></label>
+                <div id="fimDivergencia" class="divergencia neutro">Informe o total do documento fiscal.</div>
+            </div>
+
+            <div class="acoes">
+                <button class="btn btn-secundario" data-fechar="finalizar" type="button">Voltar</button>
+                <button id="btnSalvarCompra" class="btn btn-escuro" type="button">Salvar compra</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalDetalhe" class="modal oculto">
+        <div class="fundo" data-fechar="detalhe"></div>
+        <div class="modal-card modal-grande">
+            <div class="modal-topo">
+                <div><span class="rotulo">COMPRA FINALIZADA</span><h2 id="detalheTitulo"></h2></div>
+                <button class="fechar" data-fechar="detalhe" type="button">×</button>
+            </div>
+            <div id="detalheConteudo"></div>
+        </div>
+    </div>
+
+    <div id="installBanner" class="install-banner oculto">
+        <div><strong>Instale o Minha Compra</strong><span>Use como um aplicativo no seu celular.</span></div>
+        <div class="install-acoes"><button id="btnDepoisInstalar" class="mini" type="button">Agora não</button><button id="btnInstalar" class="btn btn-principal" type="button">Instalar APP</button></div>
+    </div>
+    <div id="toast" class="toast"></div>
+    <script src="js/script.js"></script>
+</body>
+</html>
